@@ -1,43 +1,21 @@
-# 4-Wheel Bot Firmware (STM32F407VG)
+# 4-Wheel Bot: Next-Gen Embedded Robotics Platform 🚗✨
 
-Welcome to the 4-Wheel Bot project! This repository contains firmware for a four-wheel robot chassis powered by the STM32F407VG microcontroller. The codebase is designed for robust sensor integration, modularity, and ease of experimentation—perfect for robotics enthusiasts, students, and developers.
-
----
-
-## 🚗 Project Overview
-
-This firmware enables a four-wheel robot to sense, move, and interact with its environment. It features:
-
-- Real-time orientation and motion sensing (BNO055 IMU)
-- PWM-based motor control
-- I2C communication for sensors and controllers
-- Example code for PS4 controller interfacing via Arduino
-- Modular drivers for STM32 peripherals
+Welcome to the future of embedded robotics! This project is a showcase of advanced real-time control, sensor fusion, and modular firmware engineering—built for the STM32F407VG and designed to impress engineers, makers, and recruiters alike.
 
 ---
 
-## ✨ Features
+## 🚀 Project Highlights
 
-- **4-Wheel Chassis Control**: Smooth PWM motor control using TIM4
-- **BNO055 IMU Integration**: Accurate orientation (Euler angles, quaternion)
-- **I2C Communication**: For sensor and controller interfacing
-- **PS4 Controller Support**: Receives commands via I2C from an Arduino bridge
-- **Self-Test & Diagnostics**: Example code for sensor and system validation
-- **STM32 HAL & CMSIS**: Leverages official drivers for reliability
-
----
-
-## 🛠️ Hardware Requirements
-
-- **MCU**: STM32F407VG (tested on STM32F407G-DISC1 board)
-- **IMU**: BNO055 (I2C1: SCL=PB8, SDA=PB9)
-- **Motors**: 4 DC motors (TIM4 PWM: PD12–PD15)
-- **Optional**: Arduino for PS4 controller bridge (I2C2)
-- **Power**: As required by your motors and board
+- **Real-Time 4-Wheel Chassis Control**: Precision PWM motor control for omnidirectional movement.
+- **Sensor Fusion**: BNO055 IMU integration for orientation, heading, and stabilization.
+- **PS4 Wireless Control**: Seamless remote operation via a custom Arduino I2C bridge.
+- **Custom STM32 Drivers**: Handcrafted low-level drivers for GPIO, I2C, SPI, and more.
+- **Modular, Extensible Codebase**: Clean separation of logic, drivers, and hardware abstraction.
+- **Recruiter-Ready**: Modern C, robust architecture, and real-world robotics application.
 
 ---
 
-## 📁 Directory Structure
+## 🏗️ Directory Structure
 
 ```
 .
@@ -48,27 +26,30 @@ This firmware enables a four-wheel robot to sense, move, and interact with its e
 │       └── Ps4_arduino_slave_sender_7bytes.ino
 ├── 4_wheel_chassis/
 │   ├── Core/
-│   │   ├── Inc/           # Main header files
-│   │   │   └── Backup/    # Backup/legacy header files
-│   │   ├── Src/           # Main source files
-│   │   │   ├── src/       # Custom STM32F407 peripheral drivers (GPIO, I2C, SPI, RCC)
-│   │   │   └── Backup/    # Backup/legacy source files
-│   │   └── Startup/       # (If present) Startup code
+│   │   ├── Inc/
+│   │   │   └── Backup/
+│   │   ├── Src/
+│   │   │   ├── Navigation.c      # Main navigation/control logic
+│   │   │   ├── test.c
+│   │   │   ├── self.c
+│   │   │   ├── self_msp.c
+│   │   │   ├── tim.c
+│   │   │   ├── gpio.c
+│   │   │   ├── i2c.c
+│   │   │   ├── bno055.c
+│   │   │   ├── sysmem.c
+│   │   │   ├── stm32f4xx_it.c
+│   │   │   ├── system_stm32f4xx.c
+│   │   │   ├── src/              # Custom STM32F407 peripheral drivers
+│   │   │   └── Backup/           # Backup/legacy source files
+│   │   └── Startup/
 │   ├── Drivers/
 │   │   ├── STM32F4xx_HAL_Driver/
-│   │   │   ├── Inc/       # STM32 HAL driver headers
-│   │   │   └── Src/       # STM32 HAL driver sources
 │   │   └── CMSIS/
-│   │       ├── Include/   # ARM CMSIS core headers
-│   │       └── Device/
-│   │           └── ST/
-│   │               └── STM32F4xx/
-│   │                   ├── Include/   # STM32F4xx device headers
-│   │                   └── Source/    # STM32F4xx device startup/system files
-│   ├── Debug/             # IDE-generated debug output
-│   ├── .settings/         # IDE settings
-│   ├── .cproject, .project, .mxproject  # STM32CubeIDE project files
-│   ├── *.launch, *.cfg, *.ioc           # IDE and CubeMX config files
+│   ├── Debug/
+│   ├── .settings/
+│   ├── .cproject, .project, .mxproject
+│   ├── *.launch, *.cfg, *.ioc
 ```
 
 ---
@@ -77,113 +58,97 @@ This firmware enables a four-wheel robot to sense, move, and interact with its e
 
 **Location:** `Arduino_code/`
 
-This folder contains Arduino sketches that turn an Arduino (with a USB Host Shield) into a PS4 controller-to-I2C bridge. The STM32 board can then read controller data over I2C for remote robot control.
+Turn any Arduino + USB Host Shield into a wireless PS4 controller-to-I2C bridge. This lets you drive the robot in real time with a PS4 controller—no wires, no lag.
 
-- **Ps4_arduino_slave_sender_5bytes.ino**: Sends left stick X/Y, trigger difference (W), and button states (5 bytes total).
-- **Ps4_arduino_slave_sender_7bytes.ino**: Sends left stick X/Y, trigger difference (W), button states, and touchpad X/Y (7 bytes total).
-
-**How to use:**
-
-1. Flash the desired `.ino` file to your Arduino (with USB Host Shield).
-2. Pair your PS4 controller with the Arduino.
-3. Connect Arduino's I2C (SDA/SCL) to the STM32 board (I2C2).
-4. The STM32 firmware can now receive controller data for robot control.
+- **5-byte & 7-byte modes**: Choose your data granularity (basic movement or full touchpad support).
+- **Plug-and-play**: Just flash, pair, and connect I2C to the STM32 board.
 
 ---
 
-## 🚀 Getting Started
+## 🧩 Main Firmware Files
 
-### 1. Clone the Repository
-
-```sh
-git clone <repo-url>
-cd 4_wheel_chassis
-```
-
-### 2. Open in STM32CubeIDE
-
-- Open STM32CubeIDE.
-- Select `File > Open Projects from File System...` and import the `4_wheel_chassis` folder.
-
-### 3. Hardware Setup
-
-- Connect the BNO055 IMU to I2C1 (PB8=SCL, PB9=SDA).
-- Connect your four DC motors to PD12–PD15 (TIM4 PWM outputs).
-- Set up an Arduino as a PS4 controller bridge and connect via I2C2.
-
-### 4. Build and Flash
-
-- Select the build configuration (Debug/Release).
-- Click the build button.
-- Connect your STM32 board and flash the firmware.
+- **Navigation.c**: The heart of the robot—handles I2C command reception, real-time kinematics, and motor control.
+- **bno055.c/h**: IMU driver for orientation and stabilization.
+- **test.c**: Standalone test routines for hardware bring-up.
+- **self.c**: Minimal self-test and diagnostics.
+- **src/**: Custom STM32F407 peripheral drivers (GPIO, I2C, SPI, RCC).
 
 ---
 
-## 🧩 Main Files
+## 💡 Example: Real-Time Robot Control Loop
 
-- **main.c**: Entry point; initializes peripherals, reads BNO055 data, prints orientation.
-- **bno055.c/h**: Driver for the BNO055 IMU.
-- **test.c**: Example/test code for I2C, PWM, and BNO055.
-- **Ps4_Interfacing_Arduino_I2C2.c**: Example for PS4 controller input via Arduino/I2C.
-- **self.c**: Minimal self-test for BNO055 and system clock.
-
----
-
-## 📝 Example: Reading Orientation
-
-The main loop in `main.c`:
+Here’s a glimpse of the core logic from `Navigation.c`—where PS4 commands become smooth, omnidirectional movement:
 
 ```c
 while (1) {
-    bno055_vector_t v = bno055_getVectorEuler();
-    printf("Heading: %.2f Roll: %.2f Pitch: %.2f\r\n", v.x, v.y, v.z);
-    v = bno055_getVectorQuaternion();
-    printf("W: %.2f X: %.2f Y: %.2f Z: %.2f\r\n", v.w, v.x, v.y, v.z);
-    HAL_Delay(1000);
+    // Receive command from Arduino PS4 bridge
+    commandcode = 0x05;
+    I2C_MasterSendData(&I2C2Handle, &commandcode, 1, SLAVE_ADDR, I2C_ENABLE_SR);
+    I2C_MasterReceiveData(&I2C2Handle, rcv_buf, len, SLAVE_ADDR, I2C_DISABLE_SR);
+
+    // Map and process joystick data
+    w = map(rcv_buf[2], 0, 255, -127, 127);
+    x = (rcv_buf[0] < 138 && rcv_buf[0] > 116) ? 0 : rcv_buf[0] - 127;
+    y = (rcv_buf[1] < 138 && rcv_buf[1] > 116) ? 0 : 127 - rcv_buf[1];
+    v = sqrt((pow(x, 2) + pow(y, 2)));
+    v = map(v, 0, 150, 0, 100);
+    v_w = map(w, 0, 255, 0, 43);
+    angle = atan2(y, x);
+    movement(v, v_w, angle, KP, KD);
+    HAL_Delay(1);
+}
+
+void movement(float v, float v_w, float angle, float KP, float KD) {
+    v_x = v * cos(angle);
+    v_y = v * sin(angle);
+    // ... PID and correction logic ...
+    w1 = (0.70711 * (-v_x + v_y)) + w + correction;
+    w2 = (0.70711 * (-v_x - v_y)) + w + correction;
+    w3 = (0.70711 * (v_x - v_y)) + w + correction;
+    w4 = (0.70711 * (v_x + v_y)) + w + correction;
+    __HAL_TIM_SET_COMPARE(&htimer4, TIM_CHANNEL_1, fabs(w1));
+    __HAL_TIM_SET_COMPARE(&htimer4, TIM_CHANNEL_2, fabs(w2));
+    __HAL_TIM_SET_COMPARE(&htimer4, TIM_CHANNEL_3, fabs(w3));
+    __HAL_TIM_SET_COMPARE(&htimer4, TIM_CHANNEL_4, fabs(w4));
 }
 ```
 
 ---
 
-## ⚙️ Customization
+## 🌟 Why This Project Stands Out
 
-- **PID Tuning**: Adjust `KP` and `KD` in the movement functions for your chassis.
-- **Controller Mapping**: Modify `Ps4_Interfacing_Arduino_I2C2.c` for your controller protocol.
-- **Sensor Fusion**: Use different BNO055 operation modes as needed.
-
----
-
-## 🛠️ Troubleshooting
-
-- **No IMU Data**: Check I2C wiring and address (default 0x28 for BNO055).
-- **No Motor Movement**: Verify PWM outputs and motor driver connections.
-- **CubeIDE Build Errors**: Ensure STM32 HAL and CMSIS drivers are present in `Drivers/`.
-- **PS4 Controller Not Detected**: Confirm Arduino bridge is running and I2C2 is connected.
+- **End-to-End Robotics Stack**: From wireless gamepad to real-time motor control, every layer is engineered for performance and clarity.
+- **Custom Drivers**: No black boxes—understand and extend every part of the hardware interface.
+- **Recruiter-Ready Code**: Modern C, modular design, and clear documentation.
+- **Plug-and-Play Demos**: Instantly show off wireless control, sensor fusion, and advanced kinematics.
+- **Extensible**: Add new sensors, swap controllers, or port to other STM32 boards with ease.
 
 ---
 
-## 🤝 Contributing
+## 🛠️ Getting Started
 
-Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change or add. Contributions for new sensors, controller support, or improved algorithms are especially appreciated.
-
----
-
-## 📜 License
-
-This project uses STM32 HAL and CMSIS drivers. See the LICENSE file (if present) or refer to STMicroelectronics' licensing terms. All original code is provided AS-IS for educational and non-commercial use.
+1. **Clone the repo** and open in STM32CubeIDE.
+2. **Flash the Arduino bridge** with your preferred `.ino` sketch.
+3. **Wire up** the BNO055 IMU, motors, and I2C connections.
+4. **Build and flash** the STM32 firmware.
+5. **Pair your PS4 controller** and drive your bot like a pro!
 
 ---
 
-## 🙏 Credits & Acknowledgments
+## 🤝 Contributing & License
+
+Pull requests are welcome! For major changes, open an issue to discuss your ideas. All original code is provided AS-IS for educational and non-commercial use. See LICENSE and STMicroelectronics terms for dependencies.
+
+---
+
+## 🙏 Credits & Inspiration
 
 - Developed by wardawg, 2023–2024.
-- Built with STM32CubeIDE and STM32 HAL.
-- Thanks to the open-source community and STMicroelectronics for their tools and libraries.
-
----
-
-## 💡 Inspiration
+- Built with STM32CubeIDE, STM32 HAL, and a passion for robotics.
+- Thanks to the open-source community and STMicroelectronics.
 
 > "Are your dreams really worth trying if they don't let you sleep?"
 
-This project is a labor of love for robotics, learning, and late-night tinkering. Happy hacking!
+---
+
+**Ready to build, learn, and impress? This is the robotics platform you’ve been looking for.**
