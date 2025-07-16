@@ -1,4 +1,4 @@
-# 4-Wheel Bot: Next-Gen Embedded Robotics Platform 🚗✨
+# Mobile Robot Navigation Control System 🚗✨
 
 This is a project repository that holds a minimal, bare-metal programmer's model for an STM32F407-DISCOVERY dev kit, along with peripheral device drivers for the Reset, Clock & Control (RCC) block, GPIO, and Communication protocols like SPI, I2C, USART and UART. 
 
