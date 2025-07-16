@@ -1,6 +1,14 @@
 # 4-Wheel Bot: Next-Gen Embedded Robotics Platform 🚗✨
 
-Welcome to the future of embedded robotics! This project is a showcase of advanced real-time control, sensor fusion, and modular firmware engineering—built for the STM32F407VG and designed to impress engineers, makers, and recruiters alike.
+This is a project repository that holds a minimal, bare-metal programmer's model for an STM32F407-DISCOVERY dev kit, along with peripheral device drivers for the Reset, Clock & Control (RCC) block, GPIO, and Communication protocols like SPI, I2C, USART and UART. 
+
+The programmer's model and drivers have been further used to interface with an Arduino platform, forming a bridge via bluetooth, to allow a user (preferably human) to input positional commands via a Joystick Controler. These inputs are mapped to drive 4 DC Motor Drivers via PWM signals, enabling the user to navigate a 4-wheel robotic chassis.
+
+Furthermore, this project integrats an IMU sensor - BNO055 from BOSCH GmBH, and implements a tuned PID control Loop, which provides further stabilization to the navogation of the robot.
+
+Here is a video, that further explains what's going on over here - https://x.com/VazeKshitij/status/1916131294993649925
+
+A blog, detailing the design methodology, inspiration and further technical details, is in Progress!.
 
 ---
 
@@ -115,40 +123,3 @@ void movement(float v, float v_w, float angle, float KP, float KD) {
 
 ---
 
-## 🌟 Why This Project Stands Out
-
-- **End-to-End Robotics Stack**: From wireless gamepad to real-time motor control, every layer is engineered for performance and clarity.
-- **Custom Drivers**: No black boxes—understand and extend every part of the hardware interface.
-- **Recruiter-Ready Code**: Modern C, modular design, and clear documentation.
-- **Plug-and-Play Demos**: Instantly show off wireless control, sensor fusion, and advanced kinematics.
-- **Extensible**: Add new sensors, swap controllers, or port to other STM32 boards with ease.
-
----
-
-## 🛠️ Getting Started
-
-1. **Clone the repo** and open in STM32CubeIDE.
-2. **Flash the Arduino bridge** with your preferred `.ino` sketch.
-3. **Wire up** the BNO055 IMU, motors, and I2C connections.
-4. **Build and flash** the STM32 firmware.
-5. **Pair your PS4 controller** and drive your bot like a pro!
-
----
-
-## 🤝 Contributing & License
-
-Pull requests are welcome! For major changes, open an issue to discuss your ideas. All original code is provided AS-IS for educational and non-commercial use. See LICENSE and STMicroelectronics terms for dependencies.
-
----
-
-## 🙏 Credits & Inspiration
-
-- Developed by wardawg, 2023–2024.
-- Built with STM32CubeIDE, STM32 HAL, and a passion for robotics.
-- Thanks to the open-source community and STMicroelectronics.
-
-> "Are your dreams really worth trying if they don't let you sleep?"
-
----
-
-**Ready to build, learn, and impress? This is the robotics platform you’ve been looking for.**
